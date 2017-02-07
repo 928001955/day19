@@ -57,14 +57,14 @@ public class ListEmpServlet extends HttpServlet {
 
 		try {
 			pageBean.setTotalCount(dao.queryCount());
-		} catch (SQLException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
 		List<Employee> list = null;
 		try {
 			list = dao.queryData(pageBean.getCurrentPage(), pageBean.getPageSize());
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		pageBean.setData(list);
