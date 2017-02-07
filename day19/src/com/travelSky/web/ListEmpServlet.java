@@ -14,12 +14,35 @@ import javax.servlet.http.HttpServletResponse;
 import com.travelSky.dao.EmpDao;
 import com.travelSky.entity.Employee;
 import com.travelSky.entity.PageBean;
+import com.travelSky.service.EmpService;
 
 public class ListEmpServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Test1(request, response);
 
+		// Test2(request, response);
+
+		String currentPage = request.getParameter("currentPage");
+		if (currentPage == null || currentPage.equals("")) {
+			currentPage = "1";
+		}
+		EmpService service = new EmpService();
+		PageBean pageBean = service.getPageBean(Integer.parseInt(currentPage));
+
+		// 把PageBean对象放入域对象中
+		request.setAttribute("pageBean", pageBean);
+		// 转发到jsp页面中显示数据
+		request.getRequestDispatcher("/listEmp.jsp").forward(request, response);
+	}
+
+	
+	
+	
+	
+	
+	
+	private void Test2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PageBean pageBean = new PageBean();
 
 		String currentPage = request.getParameter("currentPage");
@@ -31,13 +54,13 @@ public class ListEmpServlet extends HttpServlet {
 		pageBean.setPageSize(5);
 
 		EmpDao dao = new EmpDao();
-		
+
 		try {
 			pageBean.setTotalCount(dao.queryCount());
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		List<Employee> list = null;
 		try {
 			list = dao.queryData(pageBean.getCurrentPage(), pageBean.getPageSize());
