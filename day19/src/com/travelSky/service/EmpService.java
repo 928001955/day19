@@ -26,13 +26,13 @@ public class EmpService {
 	
 	EmpDao dao = new EmpDao();
 	
-	public PageBean getPageBean(Integer currentPage) {
+	public PageBean getPageBean(Integer currentPage,Integer pageSize) {
 
 		PageBean pageBean = new PageBean();
 		
 		pageBean.setCurrentPage(currentPage);
 
-		pageBean.setPageSize(5);
+		pageBean.setPageSize(pageSize);
 
 		try {
 			pageBean.setTotalCount(dao.queryCount());

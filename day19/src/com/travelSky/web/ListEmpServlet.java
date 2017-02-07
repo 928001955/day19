@@ -27,8 +27,12 @@ public class ListEmpServlet extends HttpServlet {
 		if (currentPage == null || currentPage.equals("")) {
 			currentPage = "1";
 		}
+		String pageSize = request.getParameter("pageSize");
+		if (pageSize==null || pageSize.equals("")) {
+			pageSize="5";
+		}
 		EmpService service = new EmpService();
-		PageBean pageBean = service.getPageBean(Integer.parseInt(currentPage));
+		PageBean pageBean = service.getPageBean(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
 
 		// 把PageBean对象放入域对象中
 		request.setAttribute("pageBean", pageBean);
